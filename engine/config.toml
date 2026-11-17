@@ -1,4 +1,4 @@
-# Meeting copilot engine config. CLI flags override [run] values.
+# Copilot engine config. CLI flags override [run] values.
 
 [run]
 source = "wasapi"        # wasapi | file
@@ -17,7 +17,7 @@ listener_model = "sonnet"    # runs only on escalation / trigger word / ask
 worker_models = { lookup = "haiku", research = "sonnet", docs = "sonnet", context = "haiku" }
 flush_secs = 20
 max_tasks = 3
-budget_usd = 0               # per-meeting cap in USD; 0 = no cap
+budget_usd = 0               # per-session cap in USD; 0 = no cap
 task_budget_usd = 0.5        # hard cap per background agent
 trigger_words = ["claude", "copilot"]
 context_dirs = []            # e.g. ["~/Documents/notes"] enables `context` tasks

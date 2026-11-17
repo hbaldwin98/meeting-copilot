@@ -93,7 +93,7 @@ async def run(
                 await speaker.speak(cmd.get("text", ""))
             case "preview_voice":
                 speaker.stop()
-                await speaker.speak("Hi, I'm your meeting copilot. This is how I'll sound when I read answers to you.",
+                await speaker.speak("Hi, I'm your copilot. This is how I'll sound when I read answers to you.",
                                     voice=cmd.get("voice"), wait=False)
             case "stop_speaking":
                 speaker.stop()

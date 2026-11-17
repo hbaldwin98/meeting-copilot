@@ -265,7 +265,7 @@
             {/if}
           </article>
         {:else}
-          <p class="pt-20 text-center text-[12px] text-faint">Topics build up as the meeting goes</p>
+          <p class="pt-20 text-center text-[12px] text-faint">Topics build up as audio comes in</p>
         {/each}
       {/if}
     </main>

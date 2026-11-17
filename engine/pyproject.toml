@@ -1,7 +1,7 @@
 [project]
 name = "copilot"
 version = "0.1.0"
-description = "Meeting copilot engine: live transcription + Claude agents"
+description = "Copilot engine: system-audio loopback, local transcription, Claude agents"
 readme = "README.md"
 authors = [
     { name = "Hunter Baldwin", email = "huntercbaldwin98@gmail.com" }

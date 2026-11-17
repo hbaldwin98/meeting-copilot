@@ -20,11 +20,11 @@ MEMORY_TOOLS = ["mcp__memory__recall", "mcp__memory__topic"]
 def memory_server(memory):
     @tool(
         "recall",
-        "Full-text search of meeting transcripts and summaries. scope: meeting | past | all.",
+        "Full-text search of transcripts and past-session summaries. scope: session | past | all.",
         {"query": str, "scope": str},
     )
     async def recall(args: dict[str, Any]):
-        scope = args.get("scope") if args.get("scope") in ("meeting", "past", "all") else "meeting"
+        scope = {"session": "meeting", "past": "past", "all": "all"}.get(args.get("scope"), "meeting")  # memory calls a session a "meeting"
         return {"content": [{"type": "text", "text": memory.recall(args["query"], scope)}]}
 
     @tool("topic", "One topic (by numeric id, e.g. 12 for T12) with related topics and its transcript.", {"id": int})
@@ -64,6 +64,6 @@ def read_only_guard(allow_servers: list[str]):
         if server and any(fnmatch.fnmatch(server, p) for p in allow_servers) and not is_write_tool(name):
             return PermissionResultAllow()
         why = "writes are not allowed" if is_write_tool(name) else "this server is not allow-listed"
-        return PermissionResultDeny(message=f"{name} denied: {why} (meeting copilot is read-only).")
+        return PermissionResultDeny(message=f"{name} denied: {why} (the copilot is read-only).")
 
     return guard

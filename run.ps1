@@ -1,12 +1,12 @@
 <#
 .SYNOPSIS
-  Set up (first run) and start Meeting Copilot on Windows.
+  Set up (first run) and start Copilot on Windows.
 
 .EXAMPLE
   .\run.ps1                                   # set up if needed, then start
   .\run.ps1 -Install                          # also winget-install missing tools
   .\run.ps1 -Engine nemotron                  # pick an ASR engine
-  .\run.ps1 -File recordings\x.wav -Assistant scripted   # demo without a meeting / Claude
+  .\run.ps1 -File recordings\x.wav -Assistant scripted   # demo from a recording, no Claude calls
   .\run.ps1 -Dev                              # panel with hot reload (tauri dev)
   .\run.ps1 -Setup                            # set up only
 #>

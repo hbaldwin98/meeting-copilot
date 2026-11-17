@@ -75,7 +75,7 @@ class Settings:
             ("Assistant", f"{a}.worker_models.lookup", "Quick lookups", "select", {"options": MODELS}),
             ("Assistant", f"{a}.worker_models.research", "Research", "select", {"options": MODELS}),
             ("Assistant", f"{a}.flush_secs", "Check-in interval (s)", "number", {"min": 5, "max": 120, "step": 5}),
-            ("Assistant", f"{a}.budget_usd", "Spending cap per meeting ($, 0 = none)", "number", {"min": 0, "step": 0.5}),
+            ("Assistant", f"{a}.budget_usd", "Spending cap per session ($, 0 = none)", "number", {"min": 0, "step": 0.5}),
             ("Assistant", f"{a}.trigger_words", "Wake words", "list", {}),
             ("Listening", "run.engine", "Transcription", "select", {"options": o.get("engines", [])}),
             ("Listening", "audio.mic", "Capture my microphone", "bool", {}),

@@ -1,4 +1,4 @@
-"""Meeting copilot engine CLI.
+"""Copilot engine CLI.
 
   uv run copilot run [--source file --file x.wav] [--engine nemotron] [--assistant scripted]
   uv run copilot bench recordings/x.wav --engines parakeet nemotron whisper_turbo
