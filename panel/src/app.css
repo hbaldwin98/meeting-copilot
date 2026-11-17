@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Cascadia Mono", "Consolas", ui-monospace, monospace;
+  --color-fg: rgb(255 255 255 / 0.92);
+  --color-dim: rgb(255 255 255 / 0.55);
+  --color-faint: rgb(255 255 255 / 0.32);
+  --color-hair: rgb(255 255 255 / 0.08);
+}
+
+/* Plain transparent window with a flat tint; --opacity is set from Settings. */
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+  background: rgb(18 18 21 / var(--opacity, 0.82));
+  @apply font-sans text-fg antialiased;
+}
+
+body.no-tauri {
+  background: #1b1b1d;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(255 255 255 / 0.14);
+  border-radius: 3px;
+}

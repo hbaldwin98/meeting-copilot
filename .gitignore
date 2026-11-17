@@ -1,0 +1,12 @@
+engine/.venv/
+engine/models/
+__pycache__/
+recordings/*
+!recordings/.gitkeep
+panel/node_modules/
+panel/build/
+panel/.svelte-kit/
+panel/src-tauri/target/
+engine/data/
+.pytest_cache/
+*.part

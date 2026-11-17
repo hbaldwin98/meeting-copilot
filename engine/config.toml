@@ -1,0 +1,79 @@
+# Meeting copilot engine config. CLI flags override [run] values.
+
+[run]
+source = "wasapi"        # wasapi | file
+engine = "parakeet"      # any key under [asr.engines]
+assistant = "claude"     # claude | scripted
+port = 8765
+
+[audio]
+mic = true
+loopback = true
+# mic_device = "Shure"   # substring match; default input device if unset
+
+[assistant]
+scribe_model = "haiku"       # runs every batch: topic graph + "worth waking up?"
+listener_model = "sonnet"    # runs only on escalation / trigger word / ask
+worker_models = { lookup = "haiku", research = "sonnet", docs = "sonnet", context = "haiku" }
+flush_secs = 20
+max_tasks = 3
+budget_usd = 0               # per-meeting cap in USD; 0 = no cap
+task_budget_usd = 0.5        # hard cap per background agent
+trigger_words = ["claude", "copilot"]
+context_dirs = []            # e.g. ["~/Documents/notes"] enables `context` tasks
+
+[memory]
+# path = "C:/somewhere/memory.db"   # default: engine/data/memory.db
+
+[mcp]
+# MCP access for `docs` agents. Agents are read-only: tools whose names start
+# with create/update/delete/send/... are always denied, and only servers
+# matching `allow` (fnmatch patterns) can be used at all.
+claude_ai_connectors = true  # your claude.ai account connectors (Atlassian, Drive, Gmail, ...)
+allow = ["claude_ai_*"]      # e.g. ["claude_ai_Atlassian", "claude_ai_Google_Drive"]
+# Extra servers (always allowed), same shape as .mcp.json:
+# [mcp.servers.atlassian]
+# type = "http"
+# url = "https://mcp.atlassian.com/v1/mcp"
+
+# ---------------------------------------------------------------- ASR engines
+# kind = faster_whisper | sherpa_offline | sherpa_streaming
+# sherpa provider: "cpu", or "directml" with a DirectML-enabled sherpa-onnx build.
+
+[asr.engines.parakeet]
+kind = "sherpa_offline"
+model_dir = "sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8"
+provider = "cpu"
+num_threads = 4
+
+[asr.engines.parakeet_v3]       # multilingual (25 European languages)
+kind = "sherpa_offline"
+model_dir = "sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8"
+provider = "cpu"
+
+[asr.engines.nemotron]           # native streaming, emits partials
+kind = "sherpa_streaming"
+model_dir = "sherpa-onnx-nemotron-speech-streaming-en-0.6b-560ms-int8-2026-04-25"
+provider = "cpu"
+num_threads = 4
+endpoint_silence = 0.8
+
+[asr.engines.whisper_turbo]
+kind = "faster_whisper"
+model = "turbo"
+device = "cpu"
+compute_type = "int8"
+
+[asr.engines.whisper_small]
+kind = "faster_whisper"
+model = "small.en"
+device = "cpu"
+compute_type = "int8"
+
+[voice]
+enabled = true
+engine = "kokoro"
+voice = "bf_emma"            # af_* / am_* American, bf_* / bm_* British (f/m); try: uv run copilot say "hi" --voice am_michael
+speed = 1.05
+speak = "asks"               # asks | asks+tasks | all | off  (what is read aloud automatically)
+# output_device = "Headphones"  # substring of an output device; default output if unset
