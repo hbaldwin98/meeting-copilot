@@ -1,0 +1,3 @@
+# Match pnpm 11+'s default supply-chain policy (and enforce it on pnpm 10 too):
+# only resolve package versions that have been public for at least 24 hours.
+minimumReleaseAge: 1440

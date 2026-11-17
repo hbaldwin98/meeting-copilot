@@ -18,7 +18,7 @@
     "@tauri-apps/plugin-global-shortcut": "^2.4.1",
     "@tauri-apps/plugin-opener": "^2",
     "dompurify": "^3.4.18",
-    "marked": "^18.2.1"
+    "marked": "^18.0.0"
   },
   "devDependencies": {
     "@sveltejs/adapter-static": "^3.0.10",

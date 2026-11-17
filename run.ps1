@@ -21,7 +21,17 @@ param(
 $ErrorActionPreference = "Stop"
 $root = $PSScriptRoot
 
-function Step($msg) { Write-Host "› $msg" -ForegroundColor Cyan }
+function Step($msg) { Write-Host "> $msg" -ForegroundColor Cyan }
+
+# Native commands don't trip $ErrorActionPreference; stop on their failures too.
+function Exec {
+    param([Parameter(ValueFromRemainingArguments)] $cmd)
+    & $cmd[0] $cmd[1..($cmd.Count - 1)]
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Failed (exit $LASTEXITCODE): $($cmd -join ' ')" -ForegroundColor Red
+        exit $LASTEXITCODE
+    }
+}
 
 # ---------------------------------------------------------------- prerequisites
 $tools = @(
@@ -51,19 +61,20 @@ if ($missing) {
 Push-Location "$root\engine"
 try {
     Step "engine packages"
-    uv sync --extra whisper --quiet
+    Exec uv sync --extra whisper --quiet
     Step "speech models (first run downloads ~1 GB)"
-    uv run copilot models silero parakeet kokoro
+    Exec uv run copilot models silero parakeet kokoro
 } finally { Pop-Location }
 
 Push-Location "$root\panel"
 try {
-    if (-not (Test-Path node_modules)) { Step "panel packages"; pnpm install --silent }
+    Step "panel packages"
+    Exec pnpm install --frozen-lockfile --reporter=silent
     $exe = "$root\panel\src-tauri\target\release\panel.exe"
     $newest = Get-ChildItem src, src-tauri\src, src-tauri\tauri.conf.json -Recurse -File | Sort-Object LastWriteTime | Select-Object -Last 1
     if (-not $Dev -and (-not (Test-Path $exe) -or (Get-Item $exe).LastWriteTime -lt $newest.LastWriteTime)) {
         Step "building the panel (first build takes a few minutes)"
-        pnpm tauri build --no-bundle
+        Exec pnpm tauri build --no-bundle
     }
 } finally { Pop-Location }
 
